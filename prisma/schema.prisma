@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email     String   
+  password  String
+  name      String   @unique
+  task      Task[]
+  city    City[]
+}
+
+model Task {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  message   String
+  category  Category @default(OTHERS)
+  taskId    String   @db.ObjectId
+  postedBy  User     @relation(fields: [taskId], references: [id])
+}
+model City {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  city          String
+  cityId        String   @db.ObjectId
+  postedBy      User     @relation(fields: [cityId], references: [id])
+}
+
+enum Category {
+  HOME
+  OFFICE
+  OTHERS
+}
