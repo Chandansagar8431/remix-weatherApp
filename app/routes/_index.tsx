@@ -113,7 +113,7 @@ export default function Index() {
           fontWeight="bold"
           textAlign="center">
           <MenuIcon fontSize="small" sx={{ marginRight: 2 }} />
-          Welcome to the weather app {user.name}
+          Welcome to the weather app ipgautomotive
         </Typography>
         <Form method="post">
           <LogoutButton type="submit" name="action" value="logout">
@@ -124,7 +124,7 @@ export default function Index() {
 
       <Box sx={{ position: "relative", padding: "0.7rem" }}>
         <Typography color="info" fontWeight="bold">
-          Hi Champ, Can add your favorite cities to check for it's weather
+          Hi {user.name}, Can add your favorite cities to check for it's weather
           details
         </Typography>
         <Cityform />
