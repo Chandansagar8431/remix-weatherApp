@@ -4,7 +4,6 @@ import { authenticator } from "~/utils/auth.server";
 import { Form, useLoaderData, useActionData } from "@remix-run/react";
 import { LoaderFunction } from "@remix-run/node";
 import MenuIcon from "@mui/icons-material/Menu";
-import ClearIcon from "@mui/icons-material/Clear";
 import { Modal } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
 import { addCity, getAllCitiesByUser, deleteCity } from "~/utils/city.server";
@@ -15,10 +14,10 @@ import { FlexBetween } from "~/components/flexBetween";
 import { LandingLayout } from "~/components/landingLayout";
 import { Typography } from "@mui/material";
 import { ListView } from "~/components/listView";
-import { CustomButton, LogoutButton, SubmitButton } from "~/components/Button";
+import { CustomButton, LogoutButton } from "~/components/Button";
 import { CityWeatherLayout } from "~/components/layout";
-import { WeatherCardView } from "~/components/cardView";
 import { CityListProps } from "~/types/definedType";
+import { WeatherModal, ExceedExceptionModal } from "~/Modal";
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Fullstack Remix App" }];
 };
@@ -88,6 +87,7 @@ export const action: ActionFunction = async ({ request }) => {
 export default function Index() {
   const { user, userWithCities, ciitesWeatherList } =
     useLoaderData<typeof loader>();
+
   const data = useActionData<typeof action>();
   const [showDetails, setShowDetails] = useState(false);
   const [exception, setException] = useState(false);
@@ -95,15 +95,11 @@ export default function Index() {
   const handleClose = () => {
     setShowDetails(false);
   };
-  // if (newCity.success) {
-  //   toast.error(newCity.message);
-  // }
   const exceptionClose = () => {
     setException(false);
   };
   useEffect(() => {
     if (data?.exception) {
-      console.log("effect");
       setException(true);
     }
   }, [data?.exception, data]);
@@ -156,51 +152,22 @@ export default function Index() {
           </Box>
         </CityWeatherLayout>
         {showDetails && (
-          <Modal open={showDetails} onClose={handleClose}>
-            <Box sx={{ display: "relative" }}>
-              <WeatherCardView cityWeatherInfo={cityWeatherInfo} />
-
-              <CustomButton onClick={handleClose}></CustomButton>
-            </Box>
-          </Modal>
+          <WeatherModal
+            showDetails={showDetails}
+            handleClose={handleClose}
+            cityWeatherInfo={cityWeatherInfo}
+          />
         )}
 
         {/* </div>
       </div> */}
       </Box>
       {exception && (
-        <Modal
-          open={exception}
-          onClose={exceptionClose}
-          sx={{ position: "relative" }}
-          BackdropProps={{
-            sx: { backgroundColor: "transparent" }, // Makes the backdrop transparent
-          }}>
-          <Box
-            sx={{
-              backgroundColor: "#9B0A0A",
-              height: "40px",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              position: "absolute",
-              bottom: "10px",
-              left: "100px",
-              padding: "4px",
-              paddingLeft: "10px",
-              borderRadius: "5px",
-            }}>
-            <Typography color="white" fontWeight="bold">
-              {data.msg} cannot map
-            </Typography>
-
-            <CustomButton
-              onClick={exceptionClose}
-              sx={{ color: "white", fontSize: "15px" }}>
-              x
-            </CustomButton>
-          </Box>
-        </Modal>
+        <ExceedExceptionModal
+          exception={exception}
+          exceptionClose={exceptionClose}
+          data={data.msg}
+        />
       )}
 
       <ToastContainer

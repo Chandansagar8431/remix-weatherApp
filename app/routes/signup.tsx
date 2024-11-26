@@ -48,7 +48,6 @@ export default function Signup() {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: string
   ) => {
-    console.log(event.target.value, "signup");
     setFormData((form) => ({ ...form, [field]: event.target.value }));
   };
 

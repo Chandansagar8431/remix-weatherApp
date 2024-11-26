@@ -43,7 +43,7 @@ export const weatherDeatailsViewKeys = (key: string, parentKey = "") => {
 //   }
 // };
 
-export function flattenObject(
+export function flattenObjectForCardView(
   obj: object,
   parentKey = "",
   result = {}
@@ -57,7 +57,7 @@ export function flattenObject(
         obj[key] !== null &&
         !Array.isArray(obj[key])
       ) {
-        flattenObject(obj[key], newKey, result);
+        flattenObjectForCardView(obj[key], newKey, result);
       } else {
         result[newKey] = obj[key];
       }

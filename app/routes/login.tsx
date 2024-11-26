@@ -33,12 +33,10 @@ export default function Login() {
     password: actionData?.fields?.password || "",
   });
 
-  // Updates the form data when an input changes
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: string
   ) => {
-    console.log(event.target.value);
     setFormData((form) => ({ ...form, [field]: event.target.value }));
   };
 
@@ -84,13 +82,6 @@ export default function Login() {
                 sx={{ margin: "5px" }}>
                 Login
               </SubmitButton>
-              {/* <button
-                type="submit"
-                name="_action"
-                value="Sign In"
-                className="w-full rounded-xl mt-2 bg-red-500 px-3 py-2 text-white font-semibold transition duration-300 ease-in-out hover:bg-red-600">
-                Login
-              </button> */}
             </div>
           </form>
         </Box>

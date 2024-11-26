@@ -8,7 +8,6 @@ const authenticator = new Authenticator<any>(sessionStorage);
 
 const formStrategy = new FormStrategy(async ({ form }) => {
   const name = form.get("username") as string;
-  //  const email =form.get("email") as String;
   const password = form.get("password") as string;
 
   const user = await prisma.user.findUnique({

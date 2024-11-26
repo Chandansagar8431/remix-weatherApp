@@ -1,10 +1,8 @@
 import { Box, Typography } from "@mui/material";
 import { viewKeysInUse } from "~/helper/contant";
-import ClearIcon from "@mui/icons-material/Clear";
 import {
   weatherDeatailsViewKeys,
-  weatherDetailsValueUnits,
-  flattenObject,
+  flattenObjectForCardView,
 } from "~/helper/helper";
 import { useTheme } from "@emotion/react";
 
@@ -15,8 +13,8 @@ export interface WeatherProps {
     };
   } | null;
 }
-export const WeatherCardView = ({ cityWeatherInfo }: WeatherProps) => {
-  const objectForView = flattenObject(cityWeatherInfo?.current);
+export const WeatherCardView = ({ cityWeatherInfo }: WeatherProps | null) => {
+  const objectForView = flattenObjectForCardView(cityWeatherInfo?.current);
   console.log(objectForView, "view");
   const theme = useTheme();
 
@@ -73,28 +71,26 @@ export const WeatherCardView = ({ cityWeatherInfo }: WeatherProps) => {
         </Box>
         {Object.entries(objectForView).map(([key, value]) => {
           if (viewKeysInUse.has(key)) {
-            const renderValue =
-              typeof value === "string" || typeof value === "number"
-                ? value
-                : null;
+            // const renderValue =
+            //   typeof value === "string" || typeof value === "number"
+            //     ? value
+            //     : null;
             return (
               <Box
                 key={key}
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
-                  // width: { xs: "100%", sm: "32%" },
                   width: "100%",
                   backgroundColor: "white",
                   paddingX: "10px",
                   borderRadius: 1,
                   boxShadow: 1,
                   textAlign: "center",
-                  border: "1px solid black", // Add border here
+                  border: "1px solid black",
                 }}>
                 <span>{weatherDeatailsViewKeys(key)}</span>
                 <br />
-                {/* <span>{weatherDetailsValueUnits(key, value)}</span> */}
                 {value.toString().includes("//cdn") ? (
                   <img
                     src={value}

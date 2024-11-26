@@ -12,7 +12,6 @@ import {
 } from "@remix-run/react";
 import stylesheet from "~/styles/index.css";
 import { theme } from "~/theme";
-// import { dark } from "@mui/material/styles/createPalette";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },

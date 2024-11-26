@@ -4,10 +4,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Typography, Box } from "@mui/material";
 import { List } from "~/components/listView";
 import { CustomButton } from "./Button";
-import { CityListProps } from "~/types/definedType";
+import { CityListProps, Position } from "~/types/definedType";
 import { Modal } from "@mui/material";
 import { useState } from "react";
-import { Position } from "~/types/definedType";
 
 export function Citylist({
   city,
@@ -18,37 +17,24 @@ export function Citylist({
   cityWeather,
   setCardPosition,
 }: CityListProps) {
-  console.log(cityWeather, "wather of each city");
   const [notFoundCity, setNotFoundCity] = useState(false);
   const [clickPosition, setClickPosition] = useState<Position | null>(null);
   const handleClose = () => {
     setNotFoundCity(false);
   };
   const handleClick = (e: any, code: number) => {
-    const weatherDetails = ciitesWeatherList.find(
-      (cityWeather: any) =>
-        cityWeather.location?.name.toLowerCase() === city.toLowerCase()
+    const weatherDetails = ciitesWeatherList.find((cityWeather: any) =>
+      cityWeather.location?.name.toLowerCase().includes(city.toLowerCase())
     );
     if (weatherDetails) {
       setShowDetails(true);
       setCityWeatherInfo(weatherDetails);
       setCardPosition({ x: e.clientX + 85, y: e.clientY - 10 });
     }
-    // const notFountCityWeather = ciitesWeatherList.find(
-    //   (noFound) => noFound.error?.code === 1006
-    // );
-    // if (notFountCityWeather) {
-    //   console.log(notFountCityWeather, "notFountCityWeather");
 
-    //   const { clientX, clientY } = e;
-    //   setClickPosition({ x: clientX, y: clientY });
-    //   console.log("not found");
-    //   setNotFoundCity(true);
-    // }
     if (cityWeather?.error?.code === code) {
       const { clientX, clientY } = e;
       setClickPosition({ x: clientX + 75, y: clientY - 19 });
-      console.log("not found");
       setNotFoundCity(true);
     }
   };
@@ -76,7 +62,7 @@ export function Citylist({
           open={notFoundCity}
           onClose={handleClose}
           BackdropProps={{
-            sx: { backgroundColor: "transparent" }, // Makes the backdrop transparent
+            sx: { backgroundColor: "transparent" },
           }}>
           <Box
             sx={{

@@ -1,4 +1,4 @@
-import { Button, Box } from "@mui/material";
+import { Button } from "@mui/material";
 import { styled } from "@mui/system";
 
 export const SubmitButton = styled(Button)(({ theme }) => ({
@@ -8,7 +8,6 @@ export const SubmitButton = styled(Button)(({ theme }) => ({
   paddingX: 3,
   paddingY: 3,
   color: "white",
-  //   fontWeight: 600,
   transition: "all 0.3s ease-in-out",
 }));
 export const CustomButton = styled(Button)(({ theme }) => ({

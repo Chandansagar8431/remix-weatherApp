@@ -1,8 +1,6 @@
 import { prisma } from "./prisma.server";
 import { json } from "@remix-run/node";
 import { CityData } from "~/types/definedType";
-import { toast } from "react-toastify";
-import { Message } from "@mui/icons-material";
 
 export const addCity = async ({ city, postedBy, userId }: CityData) => {
   const userLength = await prisma.user.findUnique({
@@ -15,20 +13,12 @@ export const addCity = async ({ city, postedBy, userId }: CityData) => {
   });
 
   if (userLength.city.length === 5) {
-    // return new Response(
-    //   JSON.stringify({ message: "cannot add more than five city" }),
-    //   {
-    //     headers: { "Content-Type": "application/json" },
-    //   }
-    // );
-    return { exception: true, msg: "cannot add cities more than five" };
+    return { exception: true, msg: "Cannot able to add cities more than five" };
   }
   const cityById = await prisma.city.create({
     data: { city, postedBy },
   });
-  // if (!cityById) {
-  //   return json({ error: "Not able to add city" });
-  // }
+
   return json({
     message: "City added successful",
     success: true,
@@ -67,18 +57,3 @@ export const deleteCity = async (id: string | null) => {
     payload: id,
   });
 };
-// export const getAllCities = async (userId: string) => {
-//   const userWithCities = await prisma.user.findUnique({
-//     where: {
-//       id: userId,
-//     },
-//     include: {
-//       city: {
-//         orderBy: {
-//           createdAt: "desc",
-//         },
-//       },
-//     },
-//   });
-//   return userWithCities;
-// };

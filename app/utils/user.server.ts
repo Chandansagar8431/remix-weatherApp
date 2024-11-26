@@ -1,5 +1,4 @@
 import bcrypt from "bcryptjs";
-// import type { RegisterForm } from "./types.server";
 import type { RegisterForm } from "../types/definedType";
 import { prisma } from "./prisma.server";
 
