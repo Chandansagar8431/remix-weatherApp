@@ -10,8 +10,7 @@ export interface CityListProps {
   setCityWeatherInfo: Dispatch<SetStateAction<null>>;
   setShowDetails: Dispatch<SetStateAction<boolean>>;
   ciitesWeatherList: object[];
-  cityWeather: object;
-  setCardPosition: Dispatch<SetStateAction<Position | null>>;
+  cityWeather: any;
 }
 export type RegisterForm = {
   name: string;
@@ -21,4 +20,13 @@ export type RegisterForm = {
 export type Position = {
   x: number;
   y: number;
+};
+export type User = {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  email: String;
+  password: String;
+  name: String;
+  city: any[];
 };

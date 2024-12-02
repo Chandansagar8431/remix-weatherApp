@@ -1,9 +1,9 @@
 import { prisma } from "./prisma.server";
 import { json } from "@remix-run/node";
-import { CityData } from "~/types/definedType";
+import { CityData, User } from "~/types/definedType";
 
 export const addCity = async ({ city, postedBy, userId }: CityData) => {
-  const userLength = await prisma.user.findUnique({
+  const userLength: any = await prisma.user.findUnique({
     where: {
       id: userId,
     },
@@ -12,7 +12,7 @@ export const addCity = async ({ city, postedBy, userId }: CityData) => {
     },
   });
 
-  if (userLength.city.length === 5) {
+  if (userLength?.city?.length === 5) {
     return { exception: true, msg: "Cannot able to add cities more than five" };
   }
   const cityById = await prisma.city.create({
@@ -42,7 +42,7 @@ export const getAllCitiesByUser = async (userId: string) => {
   return userWithCities;
 };
 
-export const deleteCity = async (id: string | null) => {
+export const deleteCity = async (id: string) => {
   const cityById = await prisma.city.delete({
     where: {
       id,

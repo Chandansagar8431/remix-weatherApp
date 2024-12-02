@@ -4,8 +4,6 @@ import { authenticator } from "~/utils/auth.server";
 import { Form, useLoaderData, useActionData } from "@remix-run/react";
 import { LoaderFunction } from "@remix-run/node";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Modal } from "@mui/material";
-import { toast, ToastContainer } from "react-toastify";
 import { addCity, getAllCitiesByUser, deleteCity } from "~/utils/city.server";
 import { Cityform } from "~/components/cityform";
 import { Citylist } from "~/components/cityList";
@@ -14,12 +12,11 @@ import { FlexBetween } from "~/components/flexBetween";
 import { LandingLayout } from "~/components/landingLayout";
 import { Typography } from "@mui/material";
 import { ListView } from "~/components/listView";
-import { CustomButton, LogoutButton } from "~/components/Button";
+import { LogoutButton } from "~/components/Button";
 import { CityWeatherLayout } from "~/components/layout";
-import { CityListProps } from "~/types/definedType";
 import { WeatherModal, ExceedExceptionModal } from "~/Modal";
 export const meta: V2_MetaFunction = () => {
-  return [{ title: "Fullstack Remix App" }];
+  return [{ title: " Remix Weather App" }];
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -28,7 +25,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   });
   const userWithCities = await getAllCitiesByUser(user.id);
   const apiKey = process.env.API_KEY;
-  const citiesWeatherurls = userWithCities?.city.map(
+  const citiesWeatherurls: string[] | undefined = userWithCities?.city.map(
     (city) =>
       `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city.city.toLowerCase()}&aqi=yes`
   );
@@ -44,7 +41,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     });
     return Promise.all(allCityUrlPromises);
   };
-  const ciitesWeatherList = await fetchCityUrls(citiesWeatherurls);
+  const ciitesWeatherList = await fetchCityUrls(citiesWeatherurls ?? []);
 
   return { user, userWithCities, ciitesWeatherList };
 };
@@ -75,7 +72,7 @@ export const action: ActionFunction = async ({ request }) => {
       return newCity;
     }
     case "delete": {
-      const id = form.get("id") as string | null;
+      const id = form.get("id") as string;
       const deletedCity = await deleteCity(id);
       return deletedCity;
     }
@@ -91,7 +88,7 @@ export default function Index() {
   const data = useActionData<typeof action>();
   const [showDetails, setShowDetails] = useState(false);
   const [exception, setException] = useState(false);
-  const [cityWeatherInfo, setCityWeatherInfo] = useState(null);
+  const [cityWeatherInfo, setCityWeatherInfo] = useState<null | object>({});
   const handleClose = () => {
     setShowDetails(false);
   };
@@ -112,7 +109,7 @@ export default function Index() {
           padding="5px"
           fontWeight="bold"
           textAlign="center">
-          <MenuIcon fontSize="small" sx={{ marginRight: 2 }} />
+          <MenuIcon fontSize="small" sx={{ marginRight: 2, marginLeft: 0 }} />
           Welcome to the weather app ipgautomotive
         </Typography>
         <Form method="post">
@@ -169,19 +166,6 @@ export default function Index() {
           data={data.msg}
         />
       )}
-
-      <ToastContainer
-        position="bottom-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
     </LandingLayout>
   );
 }

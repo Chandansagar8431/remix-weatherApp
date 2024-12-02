@@ -31,8 +31,6 @@ export const links: LinksFunction = () => [
 ];
 
 export default function App() {
-  // const theme = createTheme(themeSettings("dark"));
-
   return (
     <html lang="en">
       <head>

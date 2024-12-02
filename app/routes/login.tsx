@@ -9,7 +9,7 @@ import { SubmitButton } from "~/components/Button";
 import { Typography, Box, TextField } from "@mui/material";
 
 export const meta: V2_MetaFunction = () => {
-  return [{ title: "New Remix App login" }];
+  return [{ title: "Weather App login" }];
 };
 
 export const loader: LoaderFunction = async ({ request }) => {

@@ -15,7 +15,6 @@ export function Citylist({
   setShowDetails,
   ciitesWeatherList,
   cityWeather,
-  setCardPosition,
 }: CityListProps) {
   const [notFoundCity, setNotFoundCity] = useState(false);
   const [clickPosition, setClickPosition] = useState<Position | null>(null);
@@ -23,13 +22,12 @@ export function Citylist({
     setNotFoundCity(false);
   };
   const handleClick = (e: any, code: number) => {
-    const weatherDetails = ciitesWeatherList.find((cityWeather: any) =>
+    const weatherDetails: any = ciitesWeatherList.find((cityWeather: any) =>
       cityWeather.location?.name.toLowerCase().includes(city.toLowerCase())
     );
     if (weatherDetails) {
       setShowDetails(true);
       setCityWeatherInfo(weatherDetails);
-      setCardPosition({ x: e.clientX + 85, y: e.clientY - 10 });
     }
 
     if (cityWeather?.error?.code === code) {

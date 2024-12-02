@@ -13,10 +13,10 @@ export interface WeatherProps {
     };
   } | null;
 }
-export const WeatherCardView = ({ cityWeatherInfo }: WeatherProps | null) => {
+export const WeatherCardView = ({ cityWeatherInfo }: any) => {
   const objectForView = flattenObjectForCardView(cityWeatherInfo?.current);
   console.log(objectForView, "view");
-  const theme = useTheme();
+  const theme: any = useTheme();
 
   return (
     <Box
@@ -52,7 +52,7 @@ export const WeatherCardView = ({ cityWeatherInfo }: WeatherProps | null) => {
           sx={{
             width: "100%",
           }}>
-          Weather details of {cityWeatherInfo.location.name}
+          Weather details of {cityWeatherInfo?.location?.name}
         </Typography>
         <Box
           sx={{
@@ -67,7 +67,7 @@ export const WeatherCardView = ({ cityWeatherInfo }: WeatherProps | null) => {
             border: "1px solid black",
           }}>
           <span>City name</span>
-          <span>{cityWeatherInfo.location.name}</span>
+          <span>{cityWeatherInfo?.location?.name}</span>
         </Box>
         {Object.entries(objectForView).map(([key, value]) => {
           if (viewKeysInUse.has(key)) {

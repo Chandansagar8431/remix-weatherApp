@@ -15,7 +15,7 @@ import { Box, TextField, Typography } from "@mui/material";
 import { SubmitButton } from "~/components/Button";
 
 export const meta: V2_MetaFunction = () => {
-  return [{ title: "New Remix App login" }];
+  return [{ title: "Weather App sign up" }];
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -28,9 +28,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData();
   const action = form.get("_action");
-  const email = form.get("email");
-  const password = form.get("password");
-  const name = form.get("username");
+  const email = form.get("email") as string;
+  const password = form.get("password") as string;
+  const name = form.get("username") as string;
 
   await createUser({ email, password, name });
   return redirect("/login");
